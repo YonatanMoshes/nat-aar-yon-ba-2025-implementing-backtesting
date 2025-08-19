@@ -13,7 +13,7 @@ Process an hour of new 5-minute candle data into labeled sequences for supervise
 | 2 · Compute indicators | Add technical indicators            | Call `calculate_indicators` for features like SMA, RSI | Enrich input with meaningful features             |
 | 3 · Define target   | Compute regression target           | Call `define_target` to set absolute pct change target | Clear supervised target for regression task       |
 | 4 · Prepare input   | Format sequences for model training | Use `create_input` to build training sequences          | Model-ready datasets for LSTM training             |
-| 5 · Train model     | retrain the LSTM model     | Call `train` function with prepared data                | Update model to improve predictive accuracy        |
+| 5 · Train model     | Retrain the LSTM model with regularisation and callbacks | Call `train` function with early stopping and LR scheduling | Update model while preventing overfitting |
 
 ---
 
