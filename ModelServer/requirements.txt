@@ -1,0 +1,23 @@
+# -- Core ML & Data Libraries --
+numpy==1.26.4
+pandas==2.2.3
+scikit-learn==1.6.1
+xgboost==3.0.1
+tensorflow==2.16.2
+ta==0.11.0
+matplotlib
+
+# -- Web & Backend Libraries --
+Flask
+Flask-CORS
+Flask-SocketIO
+gunicorn
+eventlet
+celery
+redis
+
+# -- Database Connectors --
+pymongo==4.13.0
+
+# -- Other/API Libraries --
+python-binance==1.0.29

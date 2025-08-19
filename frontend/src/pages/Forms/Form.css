@@ -1,0 +1,126 @@
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+}
+
+.form-container {
+    background-color: #141414;
+}
+
+.form {
+    background-color: white;
+    padding: 40px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 700px;
+}
+
+h3 {
+    color: #333;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.form-label {
+    display: flex;
+    font-weight: 400;
+    margin-bottom: 5px;
+    color: black !important;
+}
+
+.form-control {
+    border-radius: 8px;
+    height: 40px;
+    padding: 10px;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.btn-danger {
+    background-color: #e50914;
+    border: none;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    transition: background-color 0.1s;
+    margin-top: 10px;
+}
+
+.btn-danger:hover {
+    background-color: #5f1717;
+}
+
+.alert {
+    border-radius: 8px;
+    margin: 15px;
+    padding: 12px;
+    font-weight: 500;
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+p a {
+    color: #e50914;
+    text-decoration: none;
+}
+
+p a:hover {
+    text-decoration: underline;
+}
+
+.new-to-nexflit {
+    color: black !important;
+}
+
+.bi-arrow-left {
+    font-size: 2rem;
+    color: #fff;
+    position: absolute;
+    top: 10px;
+    left: 18px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.bi-arrow-left:hover {
+    transform: scale(1.35);
+}
+
+.form-footer-links {
+    margin-top: 20px;
+    border-top: 1px solid #eee; /* Adds a nice visual separation */
+    padding-top: 20px;
+}
+
+.btn-back {
+    color: #6c757d; /* A standard secondary text color */
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease-in-out;
+}
+
+.btn-back:hover {
+    color: #000;
+    text-decoration: underline;
+}
+
+.row {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+}
+
+.form-container::-webkit-scrollbar {
+    display: none !important;
+}
+
+.form-container {
+    scrollbar-width: none !important;
+}

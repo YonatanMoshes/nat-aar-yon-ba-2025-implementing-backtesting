@@ -1,0 +1,16 @@
+Flask
+Flask-CORS
+Flask-SocketIO
+celery
+redis
+eventlet
+gunicorn
+stable-baselines3[extra]>=2.0
+sb3-contrib
+gymnasium
+shimmy>=2.0
+pymongo
+ta
+pandas
+numpy
+matplotlib

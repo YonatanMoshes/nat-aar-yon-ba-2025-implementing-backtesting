@@ -1,0 +1,20 @@
+{
+    "BTC": {
+        "xgboost_policy": {
+            "threshold": 2,
+            "percentage": 1.0
+        }
+    },
+    "ETH": {
+        "xgboost_policy": {
+            "threshold": 3,
+            "percentage": 0.9
+        }
+    },
+    "LTC": {
+        "xgboost_policy": {
+            "threshold": 6,
+            "percentage": 1.0
+        }
+    }
+}

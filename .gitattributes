@@ -1,0 +1,14 @@
+# .gitattributes
+
+# Set the default behavior for all text files to be normalized to LF in the repo
+* text=auto
+
+# Explicitly declare files that MUST have LF line endings
+# This is crucial for shell scripts, Dockerfiles, and config files
+*.sh        eol=lf
+*.py        eol=lf
+*.js        eol=lf
+*.json      eol=lf
+*.yml       eol=lf
+*.conf      eol=lf
+Dockerfile  eol=lf

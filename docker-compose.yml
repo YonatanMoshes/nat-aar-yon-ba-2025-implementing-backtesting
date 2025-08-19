@@ -1,0 +1,142 @@
+version: '3.8'
+
+services:
+  webapp:
+    container_name: myapp-webapp
+    build:
+      context: .
+      dockerfile: ./backend/Dockerfile
+    ports:
+      - "3000:8000"
+    depends_on:
+      - model-server
+      - mongo
+      - reommendation-server
+    environment:
+      - NODE_ENV=production
+      - PORT=8000
+      - CONNECTION_STRING=mongodb://mongo:27017/crypto_predictions
+      - PYTHON_API_URL=http://model-server:8001
+      - RECO_API_URL=http://reommendation-server:8002
+      - SECRET=SECRET
+
+  redis:
+    image: "redis:alpine"
+    container_name: myapp-redis
+    ports: 
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "--raw", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  model-server:
+    build: ./ModelServer
+    container_name: myapp-model-server
+    depends_on:
+      mongo: 
+        condition: service_healthy
+      redis: 
+        condition: service_healthy
+    environment:
+      - CONNECTION_STRING=mongodb://mongo:27017/
+      - DATABASE_NAME=crypto_predictions
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+      - REDIS_URL=redis://redis:6379/0
+    volumes:
+      # Mount training file directories to persist them on the host
+      - ./ModelServer/btc/training_files:/app/btc/training_files
+      - ./ModelServer/btc_pct/training_files:/app/btc_pct/training_files
+      - ./scripts:/app/scripts
+      - ./mongo-init/dumps:/dumps
+
+  model-worker:
+    build: ./ModelServer
+    container_name: myapp-model-worker
+    command: ["celery", "-A", "app.celery", "worker", "--loglevel=info", "-Q", "model_queue"]
+    depends_on:
+      mongo: 
+        condition: service_healthy
+      redis: 
+        condition: service_healthy
+    environment:
+      - CONNECTION_STRING=mongodb://mongo:27017/
+      - DATABASE_NAME=crypto_predictions
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+      - REDIS_URL=redis://redis:6379/0
+    volumes: # The worker ALSO needs access to the generated files
+      - ./ModelServer/btc/training_files:/app/btc/training_files
+      - ./ModelServer/btc_pct/training_files:/app/btc_pct/training_files
+
+  beat-python:
+    build: ./ModelServer
+    container_name: myapp-python-beat
+    command: ["celery", "-A", "app.celery", "beat", "--loglevel=info", "--schedule=/app/persistent_data/celerybeat-schedule"]
+    depends_on:
+      mongo: 
+        condition: service_healthy
+      redis: 
+        condition: service_healthy
+    environment:
+      - CONNECTION_STRING=mongodb://mongo:27017/
+      - DATABASE_NAME=crypto_predictions
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+      - REDIS_URL=redis://redis:6379/0
+    volumes:
+      - celery-beat-data:/app/persistent_data
+
+  reommendation-server:
+    build: ./RecommendationServer
+    container_name: myapp-recommendation-server
+    ports:
+      - "8002:8002" # Expose the port for direct testing
+    depends_on: 
+      - mongo
+      - redis
+    environment:
+      - CONNECTION_STRING=mongodb://mongo:27017/
+      - DATABASE_NAME=crypto_predictions
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+
+  recommendation-worker:
+    build: ./RecommendationServer
+    container_name: myapp-recommendation-worker
+    command: ["celery", "-A", "app.celery", "worker", "--loglevel=info", "-Q", "recommendation_queue"]
+    depends_on: 
+      - mongo
+      - redis
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+      - CONNECTION_STRING=mongodb://mongo:27017/
+      - DATABASE_NAME=crypto_predictions
+
+  mongo:
+    build:
+      context: ./mongo-init
+      dockerfile: Dockerfile
+    image: mongo:latest
+    container_name: myapp-mongo-db
+    ports:
+      - "27017:27017"
+    environment:
+      - CONNECTION_STRING=mongodb://mongo:27017/
+      - DATABASE_NAME=crypto_predictions
+    volumes:
+      - mongo-data:/data/db
+      - ./mongo-init/dumps:/dumps
+    healthcheck:
+      test: |
+        mongosh --quiet --eval 'db.getMongo()._js_version'
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    
+volumes:
+  mongo-data:
+  celery-beat-data:

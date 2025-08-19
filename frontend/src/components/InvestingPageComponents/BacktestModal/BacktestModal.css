@@ -1,0 +1,222 @@
+/* The parent container for the entire modal feature */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+
+    /* Styles for the modal content itself, nested inside the overlay */
+    .modal-content {
+        background: #2a2e37;
+        padding: 20px;
+        border-radius: 8px;
+        width: 90%;
+        max-width: 600px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        animation: fadeIn 0.3s ease-out;
+    }
+
+    /* All other modal elements are nested inside .modal-content */
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #444;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+
+        .modal-title {
+            margin: 0;
+            font-size: 1.25rem;
+            color: #f0f0f0;
+        }
+
+        .modal-close-button {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #aaa;
+            transition: color 0.2s;
+
+            /* The '&' refers to the parent selector, so this becomes .modal-close-button:hover */
+            &:hover {
+                color: #fff;
+            }
+        }
+    }
+
+    .modal-body {
+        padding: 10px 0;
+    }
+
+    .modal-footer {
+        border-top: 1px solid #444;
+        padding-top: 20px;
+        margin-top: 20px;
+        text-align: right;
+    }
+
+    /* --- Backtest Specific Styles, also nested --- */
+    .backtest-controls {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem;
+        background-color: #313540;
+        border-radius: 6px;
+        margin-bottom: 1.5rem;
+        flex-wrap: wrap;
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .control-group label {
+            font-size: 0.9rem;
+            color: #ccc;
+        }
+
+        .btn-run {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+
+            &:disabled {
+                background-color: #555;
+                cursor: not-allowed;
+            }
+
+            &:hover:not(:disabled) {
+                background-color: #45a049;
+            }
+        }
+    }
+
+    /* Results are also inside the modal */
+    .backtest-results {
+        margin-top: 20px;
+
+        h4 {
+            margin-bottom: 10px;
+            color: #e0e0e0;
+        }
+    }
+
+    .results-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+
+        th, td {
+            border: 1px solid #444;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #313540;
+        }
+    }
+
+    .loading-spinner {
+        text-align: center;
+        padding: 2rem;
+        font-size: 1.1rem;
+        color: #ccc;
+    }
+}
+
+/* Standalone utility classes can remain outside the main component scope */
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.profit {
+    color: #4CAF50;
+}
+
+.loss {
+    color: #f44336;
+}
+
+/* Style for react-datepicker to work correctly inside our dark modal */
+/* These have to be global because the datepicker renders in a portal */
+.react-datepicker-wrapper input {
+    background-color: #1c1f26;
+    border: 1px solid #444;
+    color: #f0f0f0;
+    padding: 8px 12px;
+    border-radius: 4px;
+    width: 180px;
+}
+
+.react-datepicker {
+    background-color: #2a2e37;
+    border-color: #444;
+}
+
+.react-datepicker__header {
+    background-color: #313540;
+    border-bottom-color: #444;
+}
+
+.react-datepicker__current-month,
+.react-datepicker-time__header,
+.react-datepicker__day-name,
+.react-datepicker__day,
+.react-datepicker__time-name {
+    color: #f0f0f0;
+}
+
+.react-datepicker__day:hover,
+.react-datepicker__month-text:hover,
+.react-datepicker__quarter-text:hover,
+.react-datepicker__year-text:hover {
+    background-color: #444;
+}
+
+.react-datepicker__day--selected,
+.react-datepicker__day--keyboard-selected {
+    background-color: #4CAF50;
+    color: #fff;
+}
+
+/* This targets any day cell that is outside the min/max range */
+.react-datepicker__day--disabled {
+  /* Use !important to ensure this style wins */
+  color: #555 !important;
+  background-color: transparent !important; /* Prevents hover effects */
+  cursor: not-allowed !important;
+  text-decoration: line-through; /* Optional: very clear visual cue */
+}
+
+/* Also explicitly disable the hover effect on these days */
+.react-datepicker__day--disabled:hover {
+  background-color: transparent !important;
+}
+
+/* Style for times that are outside the range */
+.react-datepicker__time-list-item--disabled {
+    color: #555 !important;
+    cursor: not-allowed !important;
+}
+
+.react-datepicker__time-list-item--disabled:hover {
+    background-color: transparent !important;
+}

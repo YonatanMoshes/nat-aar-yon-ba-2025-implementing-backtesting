@@ -1,0 +1,100 @@
+.trade-panel {
+  background-color: #1a1d23;
+  padding: 16px 20px;
+  border-radius: 8px;
+  margin-top: 16px;
+  border: 1px solid #2c323d;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.trade-panel h3 {
+  color: #e0e0e0;
+  margin: 0 0 16px 0;
+  font-size: 18px;
+  text-align: center;
+  font-weight: 600;
+}
+
+/* New container for each action (Buy or Sell) */
+.trade-action-group {
+  display: grid;
+  grid-template-columns: 2fr 1fr; /* Input takes more space than button */
+  gap: 12px;
+  align-items: center;
+}
+
+.trade-input-group {
+  display: flex;
+  align-items: center;
+  background-color: #2c323d;
+  border: 1px solid #4a5568;
+  border-radius: 6px;
+  padding: 4px 12px;
+}
+
+.trade-input-group span {
+  font-size: 16px;
+  color: #9e9e9e;
+  padding-right: 8px;
+}
+
+/* New style for suffix text like "Shares" */
+.trade-input-group .input-suffix {
+  padding-right: 0;
+  padding-left: 8px;
+}
+
+.trade-input-group input {
+  flex-grow: 1;
+  background: transparent;
+  border: none;
+  color: #e0e0e0;
+  font-size: 16px;
+  padding: 8px 0;
+  width: 100%; /* Ensure input fills its container */
+}
+
+.trade-input-group input:focus {
+  outline: none;
+}
+
+/* Shared button styles */
+.btn {
+  padding: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  width: 100%;
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  filter: grayscale(80%);
+}
+
+.btn-buy {
+  background-color: #4caf50; /* Green */
+  color: white;
+}
+.btn-buy:not(:disabled):hover {
+  background-color: #66bb6a;
+}
+
+.btn-sell {
+  background-color: #f44336; /* Red */
+  color: white;
+}
+.btn-sell:not(:disabled):hover {
+  background-color: #ef5350;
+}
+
+/* New divider style */
+.trade-divider {
+  height: 1px;
+  background-color: #2c323d;
+  margin: 16px 0;
+}
