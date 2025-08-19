@@ -1,4 +1,4 @@
-
+```mermaid
 flowchart LR
     subgraph Client
         Browser
@@ -38,4 +38,4 @@ flowchart LR
     RecommendationServer -- "Feature & label fetch" --> MongoDB
     RecommendationServer -- "Celery task queue" --> Redis
     RecommendationServer -- "Emit recommendation_result & backtest_result" --> Browser
-```mermaid
+```
